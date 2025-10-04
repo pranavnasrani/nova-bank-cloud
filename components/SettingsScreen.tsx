@@ -14,7 +14,7 @@ export const SettingsScreen = () => {
                 <img src={currentUser?.avatarUrl} alt="avatar" className="w-16 h-16 rounded-full border-2 border-indigo-400"/>
                 <div>
                     <h2 className="text-xl font-bold">{currentUser?.name}</h2>
-                    <p className="text-slate-400">@{currentUser?.username}</p>
+                    <p className="text-slate-400">{currentUser?.email}</p>
                 </div>
             </div>
 

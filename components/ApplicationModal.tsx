@@ -51,35 +51,33 @@ export const ApplicationModal: React.FC<ApplicationModalProps> = ({ isOpen, onCl
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
 
-    setTimeout(() => { // Simulate network delay
-        const baseDetails = {
-            fullName: formData.fullName,
-            address: formData.address,
-            dateOfBirth: formData.dateOfBirth,
-            employmentStatus: formData.employmentStatus,
-            employer: formData.employer,
-            annualIncome: parseFloat(formData.annualIncome) || 0,
-        };
+    const baseDetails = {
+        fullName: formData.fullName,
+        address: formData.address,
+        dateOfBirth: formData.dateOfBirth,
+        employmentStatus: formData.employmentStatus,
+        employer: formData.employer,
+        annualIncome: parseFloat(formData.annualIncome) || 0,
+    };
 
-        if (applicationType === 'Card') {
-            const result = addCardToUser(baseDetails);
-            setMessage(result.message);
-            setStatus(result.success ? 'success' : 'rejected');
-        } else {
-            const loanDetails = {
-                ...baseDetails,
-                loanAmount: parseFloat(formData.loanAmount) || 0,
-                loanTerm: parseInt(formData.loanTerm, 10) || 0,
-            };
-            const result = addLoanToUser(loanDetails);
-            setMessage(result.message);
-            setStatus(result.success ? 'success' : 'rejected');
-        }
-    }, 1500);
+    if (applicationType === 'Card') {
+        const result = await addCardToUser(baseDetails);
+        setMessage(result.message);
+        setStatus(result.success ? 'success' : 'rejected');
+    } else {
+        const loanDetails = {
+            ...baseDetails,
+            loanAmount: parseFloat(formData.loanAmount) || 0,
+            loanTerm: parseInt(formData.loanTerm, 10) || 0,
+        };
+        const result = await addLoanToUser(loanDetails);
+        setMessage(result.message);
+        setStatus(result.success ? 'success' : 'rejected');
+    }
   };
 
   const renderForm = () => (
